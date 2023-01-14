@@ -1,0 +1,22 @@
+spring:
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+#        use_sql_comments: true
+        default_batch_fetch_size: 1000
+
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/Workspace/h2-data/querydsl
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+logging:
+  level:
+    org.hibernate.sql: debug
+#    org.hibernate.type: trace
