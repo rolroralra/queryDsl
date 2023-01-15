@@ -2,8 +2,7 @@ spring:
   config:
     activate:
       on-profile:
-        - local
-
+        - test
   jpa:
     open-in-view: false
     hibernate:

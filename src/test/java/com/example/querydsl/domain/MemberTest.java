@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Transactional
-@Commit
+//@Commit
 class MemberTest {
     @PersistenceContext
     private EntityManager em;

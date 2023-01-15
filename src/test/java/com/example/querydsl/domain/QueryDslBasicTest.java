@@ -114,7 +114,6 @@ public class QueryDslBasicTest {
             .where(member.name.eq("member1")
                 .and(member.age.eq(10)))
             .fetchOne();
-
         assertThat(result).isNotNull()
             .hasFieldOrPropertyWithValue("name", "member1")
             .hasFieldOrPropertyWithValue("age", 10);
