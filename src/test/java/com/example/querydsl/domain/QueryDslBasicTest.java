@@ -21,12 +21,16 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import org.hibernate.Hibernate;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Transactional
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class QueryDslBasicTest {
     @PersistenceContext
     private EntityManager em;
@@ -60,6 +64,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(1)
     void startJPQL() {
         String query = "select m from Member m where m.name = :name";
 
@@ -73,6 +78,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(2)
     void startQueryDSL() {
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QMember m = new QMember("m");
@@ -88,6 +94,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(3)
     void startQueryDSLWithStaticImport() {
         Member result = queryFactory.select(member)
             .from(member)
@@ -100,6 +107,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(4)
     void search() {
         Member result = queryFactory
             .selectFrom(member)
@@ -113,6 +121,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(5)
     void searchAndVargs() {
         List<Member> result = queryFactory
             .selectFrom(member)
@@ -130,6 +139,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(6)
     void fetch() {
         List<Member> result = queryFactory
             .selectFrom(member)
@@ -139,6 +149,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(7)
     void fetchOne() {
         assertThatExceptionOfType(NonUniqueResultException.class).isThrownBy(() ->
                 queryFactory
@@ -148,6 +159,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(8)
     void fetchFirst() {
         Member result = queryFactory.selectFrom(member)
             .orderBy(member.id.desc())
@@ -159,6 +171,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(9)
     @SuppressWarnings("deprecation")
     void fetchResults() {
         QueryResults<Member> result = queryFactory.selectFrom(member)
@@ -173,6 +186,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(10)
     @SuppressWarnings("deprecation")
     void fetchCount() {
         long count = queryFactory.selectFrom(member)
@@ -182,6 +196,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(11)
     void sort() {
         Member memberNull = new Member(null, 100);
         Member member5 = new Member("member5", 100);
@@ -202,6 +217,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(12)
     void paging() {
         List<Member> result = queryFactory.selectFrom(member)
             .orderBy(member.name.desc())
@@ -213,6 +229,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(13)
     void aggregation() {
         List<Tuple> result = queryFactory
             .select(
@@ -235,6 +252,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(14)
     void grouping() {
         List<Tuple> result = queryFactory.select(team.name, member.age.avg())
             .from(member)
@@ -258,6 +276,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(15)
     void having() {
         List<Tuple> result = queryFactory.select(team.name, member.age.avg())
             .from(member)
@@ -277,6 +296,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(16)
     void join() {
         List<Member> result = queryFactory
             .selectFrom(member)
@@ -291,6 +311,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(17)
     void thetaJoin() {
         em.persist(new Member("teamA"));
         em.persist(new Member("teamB"));
@@ -308,6 +329,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(18)
     void joinOnFiltering() {
         List<Tuple> result = queryFactory.select(member, team)
             .from(member)
@@ -320,6 +342,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(19)
     void joinOnThetaJoin() {
         em.persist(new Member("teamA"));
         em.persist(new Member("teamB"));
@@ -336,6 +359,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(20)
     void withOutFetchJoin() {
         Member findMember = queryFactory.selectFrom(member)
             .where(member.name.eq("member1"))
@@ -353,6 +377,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(21)
     void fetchJoin() {
         Member findMember = queryFactory
             .selectFrom(member)
@@ -366,6 +391,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(22)
     void subQuery() {
         QMember memberSub = new QMember("memberSub");
 
@@ -382,6 +408,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(23)
     void subQueryWithGoe() {
         QMember memberSub = new QMember("memberSub");
 
@@ -400,6 +427,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(24)
     void subQueryWithIn() {
         QMember memberSub = new QMember("memberSub");
 
@@ -419,6 +447,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(25)
     void subQueryInSelect() {
         QMember memberSub = new QMember("memberSub");
 
@@ -440,6 +469,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(26)
     void subQueryWithStaticImport() {
         QMember memberSub = new QMember("memberSub");
 
@@ -456,6 +486,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(27)
     void caseQuery() {
         List<String> result = queryFactory
             .select(member.age
@@ -474,6 +505,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(28)
     void caseQueryWithCaseBuilder() {
         List<String> result = queryFactory
             .select(new CaseBuilder()
@@ -492,6 +524,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(29)
     void caseQueryInSelect() {
         NumberExpression<Integer> rankPath = new CaseBuilder()
             .when(member.age.between(0, 20)).then(2)
@@ -515,6 +548,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(30)
     void constant() {
         Expression<String> constant = Expressions.constant("A");
 
@@ -529,6 +563,7 @@ public class QueryDslBasicTest {
     }
 
     @Test
+    @Order(31)
     void constantConcat() {
         List<String> result = queryFactory
             .select(member.name.concat("_").concat(member.age.stringValue()))
