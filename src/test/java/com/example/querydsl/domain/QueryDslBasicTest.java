@@ -26,11 +26,13 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Transactional
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@ActiveProfiles(value = {"test"})
 public class QueryDslBasicTest {
     @PersistenceContext
     private EntityManager em;
@@ -284,7 +286,6 @@ public class QueryDslBasicTest {
             .having(member.age.avg().goe(20))
             .orderBy(team.name.asc())
             .fetch();
-
 
         assertThat(result).hasSize(1);
 

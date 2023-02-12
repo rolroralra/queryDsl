@@ -24,11 +24,13 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Transactional
 @TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
+@ActiveProfiles(value = {"test"})
 public class QueryDslInterTest {
     @PersistenceContext
     private EntityManager em;
